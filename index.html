@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="principal" type="text" placeholder="enter principal" oninput="debouncing()">
+    <input id="rate" type="text" placeholder="enter rate" oninput="debouncing()">
+    <input id="time" type="text" placeholder="enter time" oninput="debouncing()">
+    <div class="value"></div>
+    <script>
+        let timer;
+        function debouncing(){//this function will be called on every input change
+            //it will clear the previous timer and set a new one and remove the loading text every time
+            clearInterval(timer);
+            timer = setTimeout(function(){
+                getInterest();
+            },1000)
+        }
+        function getInterest() {
+            let principal = Number(document.getElementById("principal").value);
+        let rate = Number(document.getElementById("rate").value);
+        let time = Number(document.getElementById("time").value);
+        fetch("http://localhost:3000/intrest?a="+
+            principal+"&b="+rate+"&c="+time)
+        .then(function(response){
+            response.text().then(function(data){
+                document .querySelector("div").innerHTML = data;
+            })
+        })
+        }
+    </script>
+</body>
+</html>
